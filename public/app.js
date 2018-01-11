@@ -20,16 +20,34 @@ $(document).ready(() => {
                         "<div class=\"card-body\">" + 
                             "<div class=\"card-header\">" + 
                                 "<div class='row'>" + 
-                                    "<div class='col-sm-9'>" + 
+                                    "<div class='col-sm-12'>" + 
                                         "<a href=\"" + response[i].link + "\"><h3 class=\"card-title\">" + response[i].title + "</h3></a>" +
                                     "</div>" + 
-                                    "<div class='col-sm-3 text-center'>" + 
-                                        "<button type='button' class='btn btn-primary' id='note_button'>Add Note</button>" +
-                                    "</div>" +
                                 "</div>" +
                             "</div>" + 
                             "<div class=\"card-block\">" +
-                                "<p class=\"card-text\">" + response[i].summary + "</p>" + 
+                                "<div class='row summaryRow'>" + 
+                                    "<div class='col-sm-12'>" + 
+                                        "<p class=\"card-text\">" + response[i].summary + "</p>" + 
+                                    "</div>" +
+                                "</div>" +
+                                "<div class='row savedNotesRow'>" + 
+                                    "<div class='col-sm-12'>" + 
+                                        "<ul class='list-group note-container'>" + 
+                                            "<li class='list-group-item'>No notes for this article yet.</li>" +
+                                        "</ul>" +
+                                    "</div>" +
+                                "</div>" +
+                                "<div class='row newNoteRow'>" + 
+                                    "<div class='col-sm-12'>" + 
+                                        "<textarea placeholder='New Note' rows='4' cols='60'></textarea>" + 
+                                    "</div>" +
+                                "</div>" +
+                                "<div class='row'>" + 
+                                    "<div class='col-sm-12'>" +
+                                        "<button type='button' class='btn btn-primary float-right' id='note_button' data-toggle='modal' data-target='#note-modal'>Save Note</button>" +
+                                    "</div>" +
+                                "</div>" +
                             "</div>" +
                         "</div>" + 
                     "</div>" + 
@@ -49,7 +67,17 @@ $(document).ready(() => {
     //add note on click
     $("body").on("click", "#note_button", function(event) {
         event.preventDefault();
-        let articleID = $(this).closest(".card").data();
-        console.log(articleID);
+        let article = $(this).closest(".card").data();
+        let note = $(this).closest(".card").find("textarea").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/articles/" + article.id,
+            data: {
+                body: note
+            }
+        }).done(function(response) {
+            console.log(response);
+        });
     });
 });
