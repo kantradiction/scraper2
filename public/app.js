@@ -5,6 +5,9 @@ $(document).ready(() => {
             url: "/scrape",
         }).done({function(response) {
         }});
+        setTimeout(function() {
+            window.location.reload();
+        }, 1000);
     });
 
     //load documents on load
