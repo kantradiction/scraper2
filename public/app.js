@@ -20,7 +20,7 @@ $(document).ready(() => {
                                 "<a href=\"" + response[i].link + "\"><h3 class=\"card-title\">" + response[i].title + "</h3></a>" +
                             "</div>" + 
                             "<div class=\"card-block\">" +
-                                "<p class=\"card-text\">With supporting text below as a natural lead-in to additional content.</p>" + 
+                                "<p class=\"card-text\">" + response[i].summary + "</p>" + 
                                 "<a href=# class=\"btn btn-primary\">Save Article</a>" +
                             "</div>" +
                         "</div>" + 
