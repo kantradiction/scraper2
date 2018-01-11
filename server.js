@@ -153,7 +153,6 @@ app.post("/note/delete/:id", function(req, res) {
             console.log(err);
             res.send(err);
           }
-          console.log(removed);
         });
     })
     .catch(function(err) {

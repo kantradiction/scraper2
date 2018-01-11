@@ -2,9 +2,8 @@ $(document).ready(() => {
     //scrape articles on click
     $("#scrape_articles").on("click", ()=> {
         $.ajax({
-            url: "/scrape"
+            url: "/scrape",
         }).done({function(response) {
-            console.log(response);
         }});
     });
 
@@ -67,8 +66,6 @@ $(document).ready(() => {
             if (dbArticle.note.length > 0 ) {
                 //clear the savednotescontainer
                 $(".card[data-id='" + dbArticle._id + "'] .savedNotesRow ul").html("");
-                console.log("dbArticle.note.length");
-                console.log(dbArticle.note.length);
                 for ( var x = 0; x < dbArticle.note.length; x++) {
                     //append the note to the savedNotesRow of the article
                     $(".card[data-id='" + dbArticle._id + "'] .savedNotesRow ul").append(
@@ -109,7 +106,6 @@ $(document).ready(() => {
 
     //add note on click
     $("body").on("click", "#note_button", function(event) {
-        event.preventDefault();
         let article = $(this).closest(".card").data();
         let note = $(this).closest(".card").find("textarea").val();
 
@@ -120,24 +116,24 @@ $(document).ready(() => {
                 body: note
             }
         }).done(function(response) {
-            console.log(response);
         });
+
+        window.location.reload(true);
     });
 
     //delete note on click
     $("body").on("click", "#delete_note_button", function(event) {
-        event.preventDefault();
 
         let note = $(this).closest(".list-group-item").data();
         let card = $(this).closest(".card").data();
-        console.log(note);
 
         $.ajax({
             type: "POST",
             url: "/note/delete/" + note.id,
             data: card
         }).done(function(response) {
-            console.log(response);
+            window.location.reload();
         });
+        window.location.reload(true);
     });
 });
