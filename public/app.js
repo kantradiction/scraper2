@@ -72,7 +72,7 @@ $(document).ready(() => {
                 for ( var x = 0; x < dbArticle.note.length; x++) {
                     //append the note to the savedNotesRow of the article
                     $(".card[data-id='" + dbArticle._id + "'] .savedNotesRow ul").append(
-                        "<li class='list-group-item'>" + 
+                        "<li class='list-group-item' data-id=" + dbArticle.note[x]._id + ">" + 
                             "<div class='col-sm-9'>" +
                                 dbArticle.note[x].body + 
                             "</div>" + 
@@ -119,6 +119,23 @@ $(document).ready(() => {
             data: {
                 body: note
             }
+        }).done(function(response) {
+            console.log(response);
+        });
+    });
+
+    //delete note on click
+    $("body").on("click", "#delete_note_button", function(event) {
+        event.preventDefault();
+
+        let note = $(this).closest(".list-group-item").data();
+        let card = $(this).closest(".card").data();
+        console.log(note);
+
+        $.ajax({
+            type: "POST",
+            url: "/note/delete/" + note.id,
+            data: card
         }).done(function(response) {
             console.log(response);
         });

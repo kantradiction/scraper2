@@ -137,6 +137,30 @@ app.post("/articles/:id", function(req, res) {
     });
 });
 
+app.post("/note/delete/:id", function(req, res) {
+
+  db.Note
+    .findOneAndRemove({_id: req.params.id})
+    .then(function(dbNote) {
+      db.Article
+        .findOneAndUpdate({_id: req.body.id},
+        {
+          $pull: {
+            note: req.params.id
+          }
+        }, function(err, removed) {
+          if (err) {
+            console.log(err);
+            res.send(err);
+          }
+          console.log(removed);
+        });
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
 // Start the server
 app.listen(PORT, function() {
   console.log("App running on port " + PORT + "!");
