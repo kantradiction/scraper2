@@ -65,10 +65,13 @@ $(document).ready(() => {
             
             //if the article has any notes
             if (dbArticle.note.length > 0 ) {
-
+                //clear the savednotescontainer
+                $(".card[data-id='" + dbArticle._id + "'] .savedNotesRow ul").html("");
+                console.log("dbArticle.note.length");
+                console.log(dbArticle.note.length);
                 for ( var x = 0; x < dbArticle.note.length; x++) {
                     //append the note to the savedNotesRow of the article
-                    $(".card[data-id='" + dbArticle._id + "'] .savedNotesRow ul").html("").append(
+                    $(".card[data-id='" + dbArticle._id + "'] .savedNotesRow ul").append(
                         "<li class='list-group-item'>" + 
                             "<div class='col-sm-9'>" +
                                 dbArticle.note[x].body + 
