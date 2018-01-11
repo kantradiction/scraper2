@@ -12,6 +12,9 @@ $(document).ready(() => {
     $.ajax({
         url: "/articles"
     }).done(function(response) {
+        //get notes from the article
+
+
         // Grab the articles as a json
         for (var i = 0; i < response.length; i++) {
             $("#card_row").append(
@@ -45,7 +48,7 @@ $(document).ready(() => {
                                 "</div>" +
                                 "<div class='row'>" + 
                                     "<div class='col-sm-12'>" +
-                                        "<button type='button' class='btn btn-primary float-right' id='note_button' data-toggle='modal' data-target='#note-modal'>Save Note</button>" +
+                                        "<button type='button' class='btn btn-primary float-right' id='note_button'>Save Note</button>" +
                                     "</div>" +
                                 "</div>" +
                             "</div>" +
@@ -53,6 +56,43 @@ $(document).ready(() => {
                     "</div>" + 
                 "</div>"
             );
+
+        //search for one article to return the notes
+        $.ajax({
+            url: "/articles/" + response[i]._id,
+            type: "GET"
+        }).done(function(dbArticle) {
+            
+            //if the article has any notes
+            if (dbArticle.note.length > 0 ) {
+
+                for ( var x = 0; x < dbArticle.note.length; x++) {
+                    //append the note to the savedNotesRow of the article
+                    $(".card[data-id='" + dbArticle._id + "'] .savedNotesRow ul").html("").append(
+                        "<li class='list-group-item'>" + 
+                            "<div class='col-sm-9'>" +
+                                dbArticle.note[x].body + 
+                            "</div>" + 
+                            "<div class='col-sm-3'>" + 
+                                "<button type='button' class='btn btn-danger float-right' id='delete_note_button'>Delete Note</button>" +
+                            "</div>" + 
+                        "</li>"
+
+                    );
+                }
+            }
+            
+            /*$(".card[data-id='" + response[i]._id + "']").append(
+                "<li class='list-group-item'>" + dbArticle.note + "</li>"
+            );*/
+            /*for (var i = 0; i < dbArticle.note.length; i++) {
+                //append the note to the savedNotesRow
+                $(".savedNotesRow ul").append(
+                    "<li class='list-group-item'>" + dbArticle.note[i] + "</li>"
+                );
+            }*/
+        });
+
         }
         // $.getJSON("/articles", function(data) {
         //     // For each one
